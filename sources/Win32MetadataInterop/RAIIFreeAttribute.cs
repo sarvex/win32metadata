@@ -4,12 +4,16 @@ namespace Windows.Win32.Interop
 {
     public class RAIIFreeAttribute : Attribute
     {
-        public RAIIFreeAttribute(string name)
+        public RAIIFreeAttribute(Type type, string name)
         {
+            this.Type = type;
             this.Name = name;
         }
 
-        /// <summary>Gets the name of the type that was used in the native signature.</summary>
+        /// <summary>Gets the containing class for the CloseApi.</summary>
+        public Type Type { get; }
+
+        /// <summary>Gets the name of the CloseApi.</summary>
         public string Name { get; }
     }
 }

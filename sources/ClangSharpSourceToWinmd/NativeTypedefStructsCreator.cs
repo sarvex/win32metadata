@@ -68,7 +68,8 @@ $@"namespace {currentNamespace}
 
                 if (!string.IsNullOrEmpty(item.CloseApi))
                 {
-                    writer.WriteLine($"    [RAIIFree(\"{item.CloseApi}\")]");
+                    methodNamesToNamespaces.TryGetValue(item.CloseApi, out var closeApiNamespace);
+                    writer.WriteLine($"    [RAIIFree(typeof({closeApiNamespace}.Apis), \"{item.CloseApi}\")]");
                 }
 
                 if (!string.IsNullOrEmpty(item.AlsoUsableFor))
