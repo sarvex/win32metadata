@@ -2155,6 +2155,10 @@ namespace ClangSharpSourceToWinmd
                     int size = int.Parse(litLeft.Token.Text) * int.Parse(litRight.Token.Text);
                     signatureEncoder.Array(s => this.EncodeTypeSymbol(type, signatureEncoder), h => h.Shape(1, new int[1] { size }.ToImmutableArray(), new int[1] { 0 }.ToImmutableArray()));
                 }
+                else if (bracketedArgList.Arguments[0].Expression is OmittedArraySizeExpressionSyntax omittedArraySizeExp)
+                {
+                    signatureEncoder.Array(s => this.EncodeTypeSymbol(type, signatureEncoder), h => h.Shape(1, new int[1] { 0 }.ToImmutableArray(), default(ImmutableArray<int>)));
+                }
             }
             else
             {
