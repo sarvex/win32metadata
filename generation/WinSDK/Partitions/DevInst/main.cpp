@@ -6,12 +6,4 @@
 #include "windows.fixed.h"
 #include <sdkddkver.h>
 
-#define UNICODE
-
-#include <setupapi.h>
-#include <cfg.h>
-#include <cfgmgr32.h>
-#include <newdev.h>
-#include <devguid.h>
-#include <infstr.h>
-#include <wdmguid.h>
+#include <devinst.manual.h>

@@ -1,4 +1,0 @@
---traverse
-<IncludeRoot>/um/corprof.h
---namespace
-Windows.Win32.System.Diagnostics.ClrProfiling

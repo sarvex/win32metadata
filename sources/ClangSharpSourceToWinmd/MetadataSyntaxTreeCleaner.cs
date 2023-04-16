@@ -333,6 +333,19 @@ namespace ClangSharpSourceToWinmd
                     }
                 }
 
+                // Assume [0] or [1] (ANYSIZE_ARRAY) indicates flexible arrays and convert to [].
+                if (node.Declaration.Variables.First().ArgumentList is BracketedArgumentListSyntax bracketedArgumentList)
+                {
+                    if (bracketedArgumentList.Arguments.ToString() == "1" || bracketedArgumentList.Arguments.ToString() == "0")
+                    {
+                        var variable = node.Declaration.Variables.First().WithArgumentList(SyntaxFactory.ParseBracketedArgumentList("[]"));
+
+                        node = node.WithDeclaration(node.Declaration.WithVariables(SyntaxFactory.SingletonSeparatedList(variable)));
+
+                        return node;
+                    }
+                }
+
                 node = (FieldDeclarationSyntax)base.VisitFieldDeclaration(node);
                 node = node.WithAttributeLists(FixRemappedAttributes(node.AttributeLists, listAttributes));
 
