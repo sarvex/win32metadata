@@ -333,14 +333,18 @@ namespace ClangSharpSourceToWinmd
                     }
                 }
 
-                // Assume [0] or [1] (ANYSIZE_ARRAY) indicates flexible arrays and convert to [].
+                // Assume [0] or [1] (ANYSIZE_ARRAY) at the end of a struct indicates flexible arrays and add the FlexibleArray attribute.
                 if (node.Declaration.Variables.First().ArgumentList is BracketedArgumentListSyntax bracketedArgumentList)
                 {
-                    if (bracketedArgumentList.Arguments.ToString() == "1" || bracketedArgumentList.Arguments.ToString() == "0")
+                    if ((bracketedArgumentList.Arguments.ToString() == "1" || bracketedArgumentList.Arguments.ToString() == "0") &&
+                        node.ToString() == (node.Parent as StructDeclarationSyntax).Members.Last().ToString())
                     {
-                        var variable = node.Declaration.Variables.First().WithArgumentList(SyntaxFactory.ParseBracketedArgumentList("[]"));
+                        var attributeList = SyntaxFactory.AttributeList(
+                                SyntaxFactory.SingletonSeparatedList<AttributeSyntax>(
+                                    SyntaxFactory.Attribute(
+                                        SyntaxFactory.ParseName("FlexibleArray"))));
 
-                        node = node.WithDeclaration(node.Declaration.WithVariables(SyntaxFactory.SingletonSeparatedList(variable)));
+                        node = node.AddAttributeLists(attributeList);
 
                         return node;
                     }

@@ -70,6 +70,13 @@ public class DoNotReleaseAttribute : Attribute
     }
 }
 
+public class FlexibleArrayAttribute : Attribute
+{
+    public FlexibleArrayAttribute()
+    {
+    }
+}
+
 [AttributeUsage(AttributeTargets.Enum | AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.ReturnValue | AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
 [ComVisible(true)]
 public class FreeWithAttribute : Attribute
